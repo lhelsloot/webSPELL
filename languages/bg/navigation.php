@@ -68,6 +68,7 @@ $language_array = Array(
   'servers'=>'Сървъри',
   'sponsors'=>'Спонсори',
   'squads'=>'Отряди',
-  'who_is_online'=>'Кой е на линия?'
+  'who_is_online'=>'Кой е на линия?',
+  'login'=>'влизане'
 );
 ?>

@@ -27,5 +27,10 @@
 
 $_language->readModule('navigation');
 
+$login = $_language->module[ 'login' ];
+if ($loggedin) {
+    $login = getnickname($userID);
+}
+
 eval ("\$navigation = \"" . gettemplate("navigation") . "\";");
 echo $navigation;

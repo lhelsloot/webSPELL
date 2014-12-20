@@ -118,3 +118,42 @@ a.flag.active img, a.flag:hover img {
     overflow: hidden;
     text-align: left;
 }
+
+.nav > li.offcanvas-toggle {
+    display: none;
+}
+
+@media screen and (max-width: 767px) {
+    html, body {
+        overflow-x: hidden;
+    }
+
+    .nav > li.offcanvas-toggle {
+        display: block;
+        font-weight: bold;
+    }
+
+    .ws_main_wrapper .container .row {
+        position: relative;
+    }
+
+    #maincol, #rightcol {
+        -webkit-transition: all .25s ease-out;
+        -o-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+    }
+
+    #maincol.offcanvas-active {
+        left: -90%
+    }
+
+    #rightcol {
+        position: absolute;
+        right: -100%;
+    }
+
+    #rightcol.offcanvas-active {
+        right: 0;
+        width: 90%;
+    }
+}

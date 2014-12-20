@@ -68,6 +68,7 @@ $language_array = Array(
   'servers'=>'Sunucular',
   'sponsors'=>'Sponsorlar',
   'squads'=>'Takımlar',
-  'who_is_online'=>'Kimler Çevrimiçi?'
+  'who_is_online'=>'Kimler Çevrimiçi?',
+  'login'=>'Giriş'
 );
 ?>

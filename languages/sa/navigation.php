@@ -63,6 +63,7 @@ $language_array = Array(
   'servers'=>'الخوادم',
   'sponsors'=>'الرعاة',
   'squads'=>'الفرق',
-  'who_is_online'=>'من هو متصل ؟'
+  'who_is_online'=>'من هو متصل ؟',
+  'login'=>'دخول'
 );
 ?>

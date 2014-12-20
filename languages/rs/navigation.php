@@ -62,6 +62,7 @@ $language_array = Array(
   'servers'=>'Сервери',
   'sponsors'=>'Спонзори',
   'squads'=>'Тимови',
-  'who_is_online'=>'Ко је онлине?'
+  'who_is_online'=>'Ко је онлине?',
+  'login'=>'Пријава'
 );
 ?>

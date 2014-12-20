@@ -62,6 +62,7 @@ $language_array = Array(
   'servers'=>'سرورها',
   'sponsors'=>'اسپانسر',
   'squads'=>'گروه',
-  'who_is_online'=>'چه کسی انلاین است؟'
+  'who_is_online'=>'چه کسی انلاین است؟',
+  'login'=>'ورود'
 );
 ?>

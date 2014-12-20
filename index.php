@@ -58,8 +58,6 @@ header('X-UA-Compatible: IE=edge,chrome=1');
     <link href="tmp/rss.xml" rel="alternate" type="application/rss+xml" title="<?php
     echo getinput($myclanname);
     ?> - RSS Feed">
-
-    <script src="js/bbcode.js"></script>
     <!-- end Head & Title include -->
 
 </head>
@@ -269,6 +267,7 @@ header('X-UA-Compatible: IE=edge,chrome=1');
     echo '<script src="' . $component . '"></script>';
 }
 ?>
+<script src="js/bbcode.js" type="text/javascript"></script>
 <script>
     webshim.setOptions('basePath', 'components/webshim/js-webshim/minified/shims/');
     //request the features you need:
@@ -279,6 +278,5 @@ header('X-UA-Compatible: IE=edge,chrome=1');
     });
     webshim.polyfill('forms forms-ext');
 </script>
-<script src="js/bbcode.js" type="text/javascript"></script>
 </body>
 </html>

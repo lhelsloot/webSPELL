@@ -68,6 +68,7 @@ $language_array = Array(
   'servers'=>'Serverit',
   'sponsors'=>'Sponsorit',
   'squads'=>'Joukkueet',
-  'who_is_online'=>'Kuka on online?'
+  'who_is_online'=>'Kuka on online?',
+  'login'=>'Kirjaudu sisään'
 );
 ?>

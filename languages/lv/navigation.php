@@ -63,6 +63,7 @@ $language_array = Array(
   'servers'=>'Serveri',
   'sponsors'=>'Sponsori',
   'squads'=>'Vadi',
-  'who_is_online'=>'Kurš ir tiešsaistē?'
+  'who_is_online'=>'Kurš ir tiešsaistē?',
+  'login'=>'pieslēgties'
 );
 ?>

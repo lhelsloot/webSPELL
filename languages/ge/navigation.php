@@ -63,6 +63,7 @@ $language_array = Array(
   'servers'=>'სერვერები',
   'sponsors'=>'სპონსორები',
   'squads'=>'ჯგუფები',
-  'who_is_online'=>'ვინ არის ონლაინში?'
+  'who_is_online'=>'ვინ არის ონლაინში?',
+  'login'=>'ავტორიზაცია'
 );
 ?>

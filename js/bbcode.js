@@ -694,3 +694,19 @@ if (typeof calledfrom === "undefined") {
 } else if (calledfrom === "admin") {
     fetch("../getlang.php?modul=bbcode&mode=array", "none", "execute", "event");
 }
+
+$(document).ready(function() {
+    "use strict";
+
+    $("[data-toggle='offcanvas']").click(function(e) {
+        e.preventDefault();
+        $("#maincol, #rightcol").toggleClass("offcanvas-active");
+        $(".navbar-toggle").trigger("click");
+    });
+
+    $("#maincol").click(function() {
+        if ($(this).hasClass("offcanvas-active")) {
+            $("#maincol, #rightcol").toggleClass("offcanvas-active");
+        }
+    });
+});

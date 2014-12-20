@@ -68,6 +68,7 @@ $language_array = Array(
   'servers'=>'Bedieners',
   'sponsors'=>'Borge',
   'squads'=>'Spanne',
-  'who_is_online'=>'Wie is aanlyn?'
+  'who_is_online'=>'Wie is aanlyn?',
+  'login'=>'teken in'
 );
 ?>

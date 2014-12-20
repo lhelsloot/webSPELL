@@ -68,6 +68,7 @@ $language_array = Array(
   'servers'=>'Servers',
   'sponsors'=>'Χορηγοι',
   'squads'=>'Ταγματα',
-  'who_is_online'=>'Ποιος ειναι online?'
+  'who_is_online'=>'Ποιος ειναι online?',
+  'login'=>'εισοδος'
 );
 ?>

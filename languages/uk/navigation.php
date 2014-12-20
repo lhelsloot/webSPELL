@@ -62,6 +62,7 @@ $language_array = Array(
 	'servers'=>'Servers',
 	'sponsors'=>'Sponsors',
 	'squads'=>'Squads',
-	'who_is_online'=>'Who is online?'
+	'who_is_online'=>'Who is online?',
+	'login'=>'login'
 );
 ?>
