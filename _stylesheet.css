@@ -118,3 +118,7 @@ a.flag.active img, a.flag:hover img {
     overflow: hidden;
     text-align: left;
 }
+
+.navbar .dropdown.login > .dropdown-menu {
+    padding: 10px 15px;
+}

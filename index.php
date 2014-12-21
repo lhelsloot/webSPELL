@@ -67,7 +67,7 @@ header('X-UA-Compatible: IE=edge,chrome=1');
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navbar-offcanvas">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -75,8 +75,20 @@ header('X-UA-Compatible: IE=edge,chrome=1');
             <a class="navbar-brand" href="index.php"><?php echo $myclanname ?></a>
         </div>
 
-        <div class="navbar-collapse collapse">
-            <?php include("navigation.php"); ?>
+        <div class="navbar-offcanvas offcanvas">
+            <ul class="nav navbar-nav">
+
+                <?php include("navigation.php"); ?>
+
+                <li class="dropdown login visible-xs">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login</a>
+                    <div class="dropdown-menu">
+                        <?php include('login.php') ?>
+                    </div>
+
+                </li>
+
+            </ul>
         </div>
 
     </div>
@@ -179,7 +191,7 @@ header('X-UA-Compatible: IE=edge,chrome=1');
             <!-- right column -->
             <div id="rightcol" class="col-md-3 col-sm-3">
                 <!-- login include -->
-                <div>
+                <div class="login visible-sm">
                     <strong><?php echo $myclanname . "." . $index_language[ 'login' ]; ?></strong><br>
                     <?php include("login.php"); ?>
                     <hr class="grey">

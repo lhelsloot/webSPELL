@@ -19,6 +19,7 @@
     "fontawesome": "~4.2.0"
   },
   "devDependencies": {
-    "webshim": "~1.15.5"
+    "webshim": "~1.15.5",
+    "jasny-bootstrap": "~3.1.3"
   }
 }
