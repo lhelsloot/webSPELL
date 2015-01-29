@@ -30,9 +30,9 @@ if (isset($site)) {
 }
 
 if (isset($_POST[ 'save' ]) && $_POST[ 'save' ]) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('cash_box');
     if (!iscashadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -68,9 +68,9 @@ if (isset($_POST[ 'save' ]) && $_POST[ 'save' ]) {
 
     header("Location: index.php?site=cashbox&id=$id");
 } elseif (isset($_POST[ 'saveedit' ]) && $_POST[ 'saveedit' ]) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('cash_box');
     if (!iscashadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -99,9 +99,9 @@ if (isset($_POST[ 'save' ]) && $_POST[ 'save' ]) {
 
     header("Location: index.php?site=cashbox&id=$id");
 } elseif (isset($_GET[ 'delete' ]) && $_GET[ 'delete' ]) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('cash_box');
     if (!iscashadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -112,9 +112,9 @@ if (isset($_POST[ 'save' ]) && $_POST[ 'save' ]) {
 
     header("Location: index.php?site=cashbox");
 } elseif (isset($_POST[ 'pay' ]) && $_POST[ 'pay' ]) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('cash_box');
     if (!iscashadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -127,17 +127,18 @@ if (isset($_POST[ 'save' ]) && $_POST[ 'save' ]) {
     $date = time();
     foreach ($payid as $usID => $costs) {
         if ($costs != "") {
-            if (mysqli_num_rows(
-                safe_query(
-                    "SELECT
+            if (
+                mysqli_num_rows(
+                    safe_query(
+                        "SELECT
                             payedID
                         FROM
                             " . PREFIX . "cash_box_payed
                         WHERE
                             userID='$usID'AND
                             cashID='".(int)$id."'"
+                    )
                 )
-            )
             ) {
                 safe_query(
                     "UPDATE

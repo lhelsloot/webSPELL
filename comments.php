@@ -71,9 +71,9 @@ function checkCommentsAllow($type, $parentID)
 }
 
 if (isset($_POST[ 'savevisitorcomment' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
 
     $name = $_POST[ 'name' ];
     $mail = $_POST[ 'mail' ];
@@ -84,11 +84,13 @@ if (isset($_POST[ 'savevisitorcomment' ])) {
     $ip = $GLOBALS[ 'ip' ];
     $CAPCLASS = new \webspell\Captcha();
 
+    $nicks = array();
+
     setcookie("visitor_info", $name . "--||--" . $mail . "--||--" . $url, time() + (3600 * 24 * 365));
     $query = safe_query("SELECT `nickname`, `username` FROM `" . PREFIX . "user` ORDER BY `nickname`");
     while ($ds = mysqli_fetch_array($query)) {
-        $nicks[ ] = $ds[ 'nickname' ];
-        $nicks[ ] = $ds[ 'username' ];
+        $nicks[] = $ds[ 'nickname' ];
+        $nicks[] = $ds[ 'username' ];
     }
     $_SESSION[ 'comments_message' ] = $message;
 
@@ -157,9 +159,9 @@ if (isset($_POST[ 'savevisitorcomment' ])) {
         header("Location: " . $_POST[ 'referer' ]);
     }
 } elseif (isset($_POST[ 'saveusercomment' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('comments');
     if (!$userID) {
         die($_language->module[ 'access_denied' ]);
@@ -216,9 +218,9 @@ if (isset($_POST[ 'savevisitorcomment' ])) {
     }
     header("Location: " . $_POST[ 'referer' ]);
 } elseif (isset($_GET[ 'delete' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('comments');
     if (!isanyadmin($userID)) {
         die($_language->module[ 'access_denied' ]);
@@ -264,9 +266,9 @@ if (isset($_POST[ 'savevisitorcomment' ])) {
         redirect($referer, $_language->module[ 'access_denied' ], 2);
     }
 } elseif (isset($_POST[ 'saveeditcomment' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
 
     if (!isfeedbackadmin($userID) && !iscommentposter($userID, $_POST[ 'commentID' ])) {
         die('No access');
@@ -277,14 +279,15 @@ if (isset($_POST[ 'savevisitorcomment' ])) {
     $referer = urldecode($_POST[ 'referer' ]);
 
     // check if any admin edited the post
-    if (safe_query(
-        "UPDATE
+    if (
+        safe_query(
+            "UPDATE
                 `" . PREFIX . "comments`
             SET
                 comment='" . $message . "'
             WHERE
                 commentID='" . (int)$_POST[ 'commentID' ]
-    )
+        )
     ) {
         header("Location: " . $referer);
     }
@@ -412,7 +415,7 @@ if (isset($_POST[ 'savevisitorcomment' ])) {
                 $country = '[flag]' . getcountry($ds[ 'userID' ]) . '[/flag]';
                 $country = flags($country);
 
-                if ($email = getemail($ds[ 'userID' ]) && !getemailhide($ds[ 'userID' ])) {
+                if (($email = getemail($ds[ 'userID' ])) && !getemailhide($ds[ 'userID' ])) {
                     $email = str_replace('%email%', mail_protect($email), $_language->module[ 'email_link' ]);
                 } else {
                     $email = '';
@@ -563,20 +566,20 @@ if (isset($_POST[ 'savevisitorcomment' ])) {
                 $edit
             );
 
-            if (isfeedbackadmin($userID)) {
-                $submit = '<input type="hidden" name="referer" value="' . $referer . '">
-        <input class="input" type="checkbox" name="ALL" value="ALL" onclick="SelectAll(this.form);"> ' .
-                    $_language->module[ 'select_all' ] . '
-        <input type="submit" value="' . $_language->module[ 'delete_selected' ] . '" class="btn btn-danger">';
-            } else {
-                $submit = '';
-            }
-
             if ($sorttype == "DESC") {
                 $n--;
             } else {
                 $n++;
             }
+        }
+
+        if (isfeedbackadmin($userID)) {
+            $submit = '<input type="hidden" name="referer" value="' . $referer . '">
+                    <input class="input" type="checkbox" name="ALL" value="ALL" onclick="SelectAll(this.form);"> ' .
+                    $_language->module[ 'select_all' ] . '<input type="submit" value="' .
+                    $_language->module[ 'delete_selected' ] . '" class="btn btn-danger">';
+        } else {
+            $submit = '';
         }
 
         $data_array = array();

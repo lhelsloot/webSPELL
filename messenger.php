@@ -26,9 +26,9 @@
 */
 
 if (isset($_POST['delete'])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('messenger');
 
     if (!isset($userID)) {
@@ -45,9 +45,9 @@ if (isset($_POST['delete'])) {
     }
     header("Location: index.php?site=messenger&action=outgoing");
 } elseif (isset($_POST['quickaction'])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     if (!isset($userID)) {
         die();
     }
@@ -73,9 +73,9 @@ if (isset($_POST['delete'])) {
         header("Location: index.php?site=messenger&action=incoming");
     }
 } elseif (isset($_POST['send'])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('messenger');
 
     $touser = $_POST['touser'];
@@ -136,9 +136,9 @@ if (isset($_POST['delete'])) {
         exit();
     }
 } elseif (isset($_POST['reply'])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
 
     if (isset($userID)) {
         sendmessage($_POST['id'], $_POST['title'], $_POST['message'], $userID);

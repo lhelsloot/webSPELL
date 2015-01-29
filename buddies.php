@@ -32,9 +32,9 @@ if (isset($_GET[ 'action' ])) {
 }
 
 if ($action == "add") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('buddys');
     if (!$userID) {
         redirect('index.php?site=buddies', $_language->module[ 'not_logged' ], 3);
@@ -68,9 +68,9 @@ if ($action == "add") {
         }
     }
 } elseif ($action == "ignore") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('buddys');
     if (!$userID) {
         redirect('index.php?site=buddies', $_language->module[ 'not_logged' ], 3);
@@ -107,9 +107,9 @@ if ($action == "add") {
         }
     }
 } elseif ($action == "readd") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('buddys');
     if (!$userID) {
         redirect('index.php?site=buddies', $_language->module[ 'not_logged' ], 3);
@@ -122,9 +122,9 @@ if ($action == "add") {
         header("Location: index.php?site=buddies");
     }
 } elseif ($action == "delete") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('buddys');
     if (!$userID) {
         redirect('index.php?site=buddies', $_language->module[ 'not_logged' ], 3);

@@ -719,17 +719,18 @@ if (isset($id) && getnickname($id) != '') {
 
         if ($userID != $id && $userID != 0) {
             safe_query("UPDATE " . PREFIX . "user SET visits=visits+1 WHERE userID='" . $id . "'");
-            if (mysqli_num_rows(
-                safe_query(
-                    "SELECT
+            if (
+                mysqli_num_rows(
+                    safe_query(
+                        "SELECT
                             visitID
                         FROM
                             " . PREFIX . "user_visitors
                         WHERE
                             userID='" . $id . "' AND
                             visitor='" . (int)$userID."'"
+                    )
                 )
-            )
             ) {
                 safe_query(
                     "UPDATE
@@ -971,11 +972,33 @@ if (isset($id) && getnickname($id) != '') {
                     WHERE
                         " . $posts . " >= postmin AND
                         " . $posts . " <= postmax AND
-                        postmax > 0"
+                        postmax > 0 AND
+                        special='0'"
                 );
             $ds = mysqli_fetch_array($ergebnis);
             $usertype = $ds[ 'rank' ];
             $rang = '<img src="images/icons/ranks/' . $ds[ 'pic' ] . '" alt="">';
+        }
+
+        $specialrank = '';
+        $getrank = safe_query(
+            "SELECT IF
+                (u.special_rank = 0, 0, CONCAT_WS('__', r.rank, r.pic)) as RANK
+            FROM
+                " . PREFIX . "user u LEFT JOIN " . PREFIX . "forum_ranks r ON u.special_rank = r.rankID
+            WHERE
+                userID='" . $userID . "'"
+        );
+        $rank_data = mysqli_fetch_assoc($getrank);
+
+        if ($rank_data[ 'RANK' ] != '0') {
+            $specialrank  = '<br/>';
+            $tmp_rank = explode("__", $rank_data[ 'RANK' ], 2);
+            $specialrank .= $tmp_rank[0];
+            if (!empty($tmp_rank[1]) && file_exists("images/icons/ranks/" . $tmp_rank[1])) {
+                $specialrank .= '<br/>';
+                $specialrank .= "<img src='images/icons/ranks/" . $tmp_rank[1] . "' alt = '' />";
+            }
         }
 
         $lastvisits = "";
@@ -1098,6 +1121,7 @@ if (isset($id) && getnickname($id) != '') {
         $data_array['$clanwar_comments'] = getusercomments($ds[ 'userID' ], 'cw');
         $data_array['$articles_comments'] = getusercomments($ds[ 'userID' ], 'ar');
         $data_array['$demo_comments'] = getusercomments($ds[ 'userID' ], 'de');
+        $data_array['$specialrank'] = $specialrank;
         $profile = $GLOBALS["_template"]->replaceTemplate("profile", $data_array);
         echo $profile;
     }

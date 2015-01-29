@@ -167,12 +167,13 @@ if (isset($_POST['save'])) {
                 $_language->module['mail_text']
             );
 
-            if (mail(
-                $ToEmail,
-                $header,
-                $Message,
-                "From:" . $admin_email . "\nContent-type: text/plain; charset=utf-8\n"
-            )
+            if (
+                mail(
+                    $ToEmail,
+                    $header,
+                    $Message,
+                    "From:" . $admin_email . "\nContent-type: text/plain; charset=utf-8\n"
+                )
             ) {
                 redirect("index.php", $_language->module['register_successful'], 3);
                 $show = false;

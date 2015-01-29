@@ -31,7 +31,12 @@ if (isset($_GET[ 'action' ])) {
     $action = '';
 }
 
-if ($action == "search" && ($userID || isset($_REQUEST[ 'captcha' ]))) {
+if (
+    $action == "search" &&
+    (
+        $userID || isset($_REQUEST[ 'captcha' ])
+    )
+) {
     $_language->readModule('search');
 
     $run = 0;
@@ -107,8 +112,9 @@ if ($action == "search" && ($userID || isset($_REQUEST[ 'captcha' ]))) {
                                 `articlesID` = '" . $articlesID . "' AND
                                 `content` LIKE '%" . $text . "%'"
                         );
-                    if (!mysqli_num_rows($ergebnis_articles_contents)
-                        && substr_count(strtolower($ds[ 'title' ]), strtolower(stripslashes($text))) == 0
+                    if (
+                        !mysqli_num_rows($ergebnis_articles_contents) &&
+                        substr_count(strtolower($ds[ 'title' ]), strtolower(stripslashes($text))) == 0
                     ) {
                         continue;
                     } elseif (!mysqli_num_rows($ergebnis_articles_contents)) {

@@ -103,6 +103,7 @@ function forum_stats()
                 `birthday` ASC"
         );
     $n = 0;
+    $birthweek = '';
     while ($db = mysqli_fetch_array($ergebnis)) {
         $n++;
         $years = $db[ 'age' ];
@@ -474,6 +475,12 @@ function boardmain()
             $moderators = $_language->module[ 'moderated_by' ] . ': ' . $moderators;
         }
 
+        $postlink = '';
+        $date = '';
+        $time = '';
+        $poster = '';
+        $member = '';
+
         $q = safe_query(
             "SELECT topicID, lastdate, lastposter, replys FROM " . PREFIX . "forum_topics WHERE boardID='" .
             $db[ 'boardID' ] . "' AND moveID='0' ORDER BY lastdate DESC LIMIT 0," . $maxtopics
@@ -505,7 +512,7 @@ function boardmain()
                     ceil(($lp[ 'replys' ] + 1) / $maxposts);
             }
             if ($userID) {
-                $board_topics[ ] = $ds[ 'topicID' ];
+                $board_topics[ ] = $lp[ 'topicID' ];
             } else {
                 break;
             }
@@ -620,10 +627,9 @@ function showboard($board)
         $page_link = makepagelink("index.php?site=forum&amp;board=$board", $page, $pages);
     }
 
-    if ($page == 1) {
+    if ($page <= 1) {
         $start = 0;
-    }
-    if ($page > 1) {
+    } else {
         $start = $page * $max - $max;
     }
 
@@ -934,9 +940,9 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
     }
 
     if ($_POST[ 'admaction' ] == "closetopic") {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
 
         $topicID = (int)$_POST[ 'topicID' ];
@@ -949,9 +955,9 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
         safe_query("UPDATE " . PREFIX . "forum_topics SET closed='1' WHERE topicID='$topicID' ");
         header("Location: index.php?site=forum&board=$board");
     } elseif ($_POST[ 'admaction' ] == "opentopic") {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
 
         $topicID = (int)$_POST[ 'topicID' ];
@@ -964,9 +970,9 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
         safe_query("UPDATE " . PREFIX . "forum_topics SET closed='0' WHERE topicID='$topicID' ");
         header("Location: index.php?site=forum&board=$board");
     } elseif ($_POST[ 'admaction' ] == "deletetopic") {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
 
         $topicID = (int)$_POST[ 'topicID' ];
@@ -994,9 +1000,9 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
         safe_query("DELETE FROM " . PREFIX . "forum_posts WHERE topicID='$topicID' ");
         header("Location: index.php?site=forum&board=$board");
     } elseif ($_POST[ 'admaction' ] == "stickytopic") {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
 
         $topicID = (int)$_POST[ 'topicID' ];
@@ -1009,9 +1015,9 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
         safe_query("UPDATE " . PREFIX . "forum_topics SET sticky='1' WHERE topicID='$topicID' ");
         header("Location: index.php?site=forum&board=$board");
     } elseif ($_POST[ 'admaction' ] == "unstickytopic") {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
 
         $topicID = (int)$_POST[ 'topicID' ];
@@ -1024,13 +1030,13 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
         safe_query("UPDATE " . PREFIX . "forum_topics SET sticky='0' WHERE topicID='$topicID' ");
         header("Location: index.php?site=forum&board=$board");
     } elseif ($_POST[ 'admaction' ] == "delposts") {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
 
         $topicID = (int)$_POST[ 'topicID' ];
-        if (isset($_POST[ 'postID' ])) {
+        if (isset($_POST[ 'postID' ]) && is_array($_POST[ 'postID' ])) {
             $postID = $_POST[ 'postID' ];
         } else {
             $postID = array();
@@ -1054,7 +1060,7 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
                 $dl = mysqli_fetch_array($last);
                 safe_query(
                     "UPDATE " . PREFIX . "forum_topics SET lastdate='" . $dl[ 'date' ] . "', lastposter='" .
-                    $dl[ 'poster' ] . "', lastpostID='" . $ds[ 'postID' ] .
+                    $dl[ 'poster' ] . "', lastpostID='" . $dl[ 'postID' ] .
                     "', replys=replys-1 WHERE topicID='$topicID' "
                 );
                 $deleted = false;
@@ -1071,9 +1077,9 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
             header("Location: index.php?site=forum_topic&topic=$topicID");
         }
     } elseif (isset($_POST[ 'movetopic' ])) {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
 
         $toboard = (int)$_POST[ 'toboard' ];
@@ -1129,9 +1135,9 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
 
         header("Location: index.php?site=forum&board=$toboard");
     } elseif ($_POST[ 'admaction' ] == "movetopic") {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
         if (!isanyadmin($userID) && !ismoderator($userID, getboardid($_POST[ 'topicID' ]))) {
             die($_language->module[ 'no_access' ]);
@@ -1162,14 +1168,15 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
         $data_array = array();
         $data_array['$pagetitle'] = $pagetitle;
         $data_array['$rewriteBase'] = $rewriteBase;
-        $data_array['$_POST'] = $_POST;
         $data_array['$boards'] = $boards;
+        $data_array['$board'] = (int)$_POST['board'];
+        $data_array['$topic'] = (int)$_POST['topicID'];
         $forum_move_topic = $GLOBALS["_template"]->replaceTemplate("forum_move_topic", $data_array);
         echo $forum_move_topic;
     } elseif (isset($_POST[ 'newtopic' ]) && !isset($_POST[ 'preview' ])) {
-        include"_mysql.php";
-        include"_settings.php";
-        include'_functions.php';
+        include("_mysql.php");
+        include("_settings.php");
+        include('_functions.php');
         $_language->readModule('forum');
         $_language->readModule('bbcode', true);
 
@@ -1224,8 +1231,8 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
             $spamApi = \webspell\SpamApi::getInstance();
             $validation = $spamApi->validate($message);
 
+            $date = time();
             if ($validation == \webspell\SpamApi::NOSPAM) {
-                $date = time();
                 safe_query(
                     "INSERT INTO " . PREFIX .
                     "forum_topics ( boardID,
@@ -1348,6 +1355,7 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
         $data_array['$kathname'] = $kathname;
         $data_array['$boardname'] = $boardname;
         $data_array['$moderators'] = $moderators;
+
         $forum_head = $GLOBALS["_template"]->replaceTemplate("forum_head", $data_array);
         echo $forum_head;
 
@@ -1418,30 +1426,44 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
 
                 $registered = getregistered($userID);
                 $posts = getuserforumposts($userID);
-                if (isforumadmin($userID) || ismoderator($userID, $board)) {
-                    if (ismoderator($userID, $board)) {
-                        $usertype = $_language->module[ 'moderator' ];
-                        $rang = '<img src="images/icons/ranks/moderator.gif" alt="">';
-                        if (isset($_POST[ 'sticky' ])) {
-                            $_sticky = 'checked="checked"';
-                        }
-                    }
-                    if (isforumadmin($userID)) {
-                        $usertype = "Administrator";
-                        $rang = '<img src="images/icons/ranks/admin.gif" alt="">';
-                        if (isset($_POST[ 'sticky' ])) {
-                            $_sticky = 'checked="checked"';
-                        }
-                    }
+                $_sticky = '';
+                if (isforumadmin($userID)) {
+                    $usertype = "Administrator";
+                    $rang = '<img src="images/icons/ranks/admin.gif" alt="">';
+                } elseif (ismoderator($userID, $board)) {
+                    $usertype = $_language->module[ 'moderator' ];
+                    $rang = '<img src="images/icons/ranks/moderator.gif" alt="">';
                 } else {
                     $ergebnis = safe_query(
                         "SELECT * FROM " . PREFIX .
-                        "forum_ranks WHERE $posts >= postmin AND $posts <= postmax"
+                        "forum_ranks WHERE $posts >= postmin AND $posts <= postmax AND special='0'"
                     );
                     $ds = mysqli_fetch_array($ergebnis);
                     $usertype = $ds[ 'rank' ];
                     $rang = '<img src="images/icons/ranks/' . $ds[ 'pic' ] . '" alt="">';
                 }
+
+                $specialrang = "";
+                $specialtype = "";
+                $getrank = safe_query(
+                    "SELECT IF
+                        (u.special_rank = 0, 0, CONCAT_WS('__', r.rank, r.pic)) as RANK
+                    FROM
+                        " . PREFIX . "user u LEFT JOIN " . PREFIX . "forum_ranks r ON u.special_rank = r.rankID
+                    WHERE
+                        userID = '" . $userID . "'"
+                );
+                $rank_data = mysqli_fetch_assoc($getrank);
+
+                if ($rank_data[ 'RANK' ] != '0') {
+                    $tmp_rank = explode("__", $rank_data[ 'RANK' ], 2);
+                    $specialrang = $tmp_rank[ 0 ];
+                    if (!empty($tmp_rank[1]) && file_exists("images/icons/ranks/" . $tmp_rank[1])) {
+                        $specialtype =
+                        "<img src='images/icons/ranks/" . $tmp_rank[ 1 ] . "' alt = '" . $specialrang . "' />";
+                    }
+                }
+
                 $actions = '';
                 $quote = '';
 
@@ -1468,6 +1490,8 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
                 $data_array['$registered'] = $registered;
                 $data_array['$message'] = $message;
                 $data_array['$signatur'] = $signatur;
+                $data_array['$specialrang'] = $specialrang;
+                $data_array['$specialtype'] = $specialtype;
                 $forum_topic_content = $GLOBALS["_template"]->replaceTemplate("forum_topic_content", $data_array);
                 echo $forum_topic_content;
 
@@ -1479,10 +1503,10 @@ if (isset($_POST[ 'submit' ]) || isset($_POST[ 'movetopic' ]) || isset($_GET[ 'a
             $addbbcode = $GLOBALS["_template"]->replaceTemplate("addbbcode", array());
 
             if (isforumadmin($userID) || ismoderator($userID, $board)) {
-                if (isset($_sticky)) {
+                if (isset($_POST[ 'sticky' ])) {
                     $chk_sticky =
-                        '<br>' . "\n" . ' <input class="input" type="checkbox" name="sticky" value="1" ' . $_sticky .
-                        '> ' . $_language->module[ 'make_sticky' ];
+                        '<br>' . "\n" . ' <input class="input" type="checkbox" name="sticky" value="1" '.
+                        'checked="checked"> ' . $_language->module[ 'make_sticky' ];
                 } else {
                     $chk_sticky = '<br>' . "\n" . ' <input class="input" type="checkbox" name="sticky" value="1"> ' .
                         $_language->module[ 'make_sticky' ];

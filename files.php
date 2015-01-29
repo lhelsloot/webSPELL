@@ -153,8 +153,9 @@ if ($action == "save") {
             }
         }
 
-        if (safe_query(
-            "INSERT INTO
+        if (
+            safe_query(
+                "INSERT INTO
                     `" . PREFIX . "files` (
                         `filecatID`,
                         `poster`,
@@ -179,7 +180,7 @@ if ($action == "save") {
                         '0',
                         '" . $accesslevel . "'
                     )"
-        )
+            )
         ) {
             redirect(
                 "index.php?site=files&amp;file=" . mysqli_insert_id($_database) . "",
@@ -252,9 +253,10 @@ if ($action == "save") {
             `fileID` = '" . (int)$fileID."'"
     ) || die(redirect("index.php?site=files", $_language->module[ 'failed_save_file-info' ], "3"));
     if (isset($file)) {
-        if (!safe_query(
-            "UPDATE `" . PREFIX . "files` SET `file` = '" . $file . "' WHERE `fileID` = '" . (int)$fileID
-        )
+        if (
+            !safe_query(
+                "UPDATE `" . PREFIX . "files` SET `file` = '" . $file . "' WHERE `fileID` = '" . (int)$fileID
+            )
         ) {
             die(redirect("index.php?site=files", $_language->module[ 'failed_edit_file' ], "3"));
         }
@@ -324,16 +326,17 @@ if ($action == "save") {
             while ($dr = mysqli_fetch_array($rubrics)) {
                 $filecats .= '<option value="' . $dr[ 'filecatID' ] . '">' .
                     $offset . htmlspecialchars($dr[ 'name' ]) . '</option>';
-                if (mysqli_num_rows(
-                    safe_query(
-                        "SELECT
+                if (
+                    mysqli_num_rows(
+                        safe_query(
+                            "SELECT
                                 *
                             FROM
                                 `" . PREFIX . "files_categorys`
                             WHERE
                                 `subcatID` = '" . (int)$dr[ 'filecatID' ]."'"
+                        )
                     )
-                )
                 ) {
                     $filecats .= generate_options("", $offset . "- ", $dr[ 'filecatID' ]);
                 }
@@ -388,16 +391,17 @@ if ($action == "save") {
                     $filecats .=
                         '<option value="' . $dr[ 'filecatID' ] . '">' . $offset . htmlspecialchars($dr[ 'name' ]) .
                         '</option>';
-                    if (mysqli_num_rows(
-                        safe_query(
-                            "SELECT
+                    if (
+                        mysqli_num_rows(
+                            safe_query(
+                                "SELECT
                                     *
                                 FROM
                                     `" . PREFIX . "files_categorys`
                                 WHERE
                                     `subcatID` = '" . (int)$dr[ 'filecatID' ]."'"
+                            )
                         )
-                    )
                     ) {
                         $filecats .= generate_options("", $offset . "- ", $dr[ 'filecatID' ]);
                     }

@@ -179,7 +179,7 @@ if (mysqli_num_rows($get)) {
     }
     $avg_age_member = ROUND($avg_age_member / mysqli_num_rows($get), 0);
 }
-// get oldest/oldest member
+// get oldest/youngest member
 $get_young = mysqli_fetch_assoc(
     safe_query(
         "SELECT

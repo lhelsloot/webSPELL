@@ -50,8 +50,11 @@ if (isset($_GET[ 'page' ])) {
 }
 $sort = "nickname";
 if (isset($_GET[ 'sort' ])) {
-    if ($_GET[ 'sort' ] === 'country' || $_GET[ 'sort' ] === 'nickname' || $_GET[ 'sort' ] === 'lastlogin'
-        || $_GET[ 'sort' ] === 'registerdate'
+    if (
+        $_GET[ 'sort' ] === 'country' ||
+        $_GET[ 'sort' ] === 'nickname' ||
+        $_GET[ 'sort' ] === 'lastlogin' ||
+        $_GET[ 'sort' ] === 'registerdate'
     ) {
         $sort = $_GET[ 'sort' ];
     }

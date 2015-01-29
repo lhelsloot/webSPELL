@@ -61,9 +61,9 @@ if (isset($_GET['quoteID'])) {
 $do_sticky = (isset($_POST['sticky'])) ? true : false;
 
 if (isset($_POST['newreply']) && !isset($_POST['preview'])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('forum');
 
     if (!$userID) {
@@ -106,11 +106,11 @@ if (isset($_POST['newreply']) && !isset($_POST['preview'])) {
         die($_language->module['no_access_write']);
     }
     $do_sticky = '';
-    if (isforumadmin($userID) || isanymoderator($userID, $ds['boardID'])) {
+    if (isforumadmin($userID) || ismoderator($userID, $ds['boardID'])) {
         $do_sticky = (isset($_POST['sticky'])) ? ', sticky=1' : ', sticky=0';
     }
 
-    $spamApi = SpamApi::getInstance();
+    $spamApi = \webspell\SpamApi::getInstance();
     $validation = $spamApi->validate($message);
 
     $date = time();
@@ -197,9 +197,9 @@ if (isset($_POST['newreply']) && !isset($_POST['preview'])) {
     header("Location: index.php?site=forum_topic&topic=" . $topic . "&page=" . $page);
     exit();
 } elseif (isset($_POST['editreply']) && (bool)$_POST['editreply']) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('forum');
 
     if (!isforumposter($userID, $_POST['id']) && !isforumadmin($userID) && !ismoderator($userID, $_GET['board'])
@@ -217,7 +217,7 @@ if (isset($_POST['newreply']) && !isset($_POST['preview'])) {
     );
     if (($check || isforumadmin($userID) || ismoderator($userID, (int)$_GET['board'])) && mb_strlen(trim($message))
     ) {
-        if (isforumadmin($userID) || isanymoderator($userID, $ds['boardID'])) {
+        if (isforumadmin($userID) || ismoderator($userID, (int)$_GET['board'])) {
             $do_sticky = (isset($_POST['sticky'])) ? 'sticky=1' : 'sticky=0';
             safe_query(
                 "UPDATE " . PREFIX . "forum_topics SET $do_sticky WHERE topicID='" . (int)$_GET['topic'] .
@@ -243,9 +243,9 @@ if (isset($_POST['newreply']) && !isset($_POST['preview'])) {
     }
     header("Location: index.php?site=forum_topic&topic=" . (int)$_GET['topic'] . "&page=" . (int)$_GET['page']);
 } elseif (isset($_POST['saveedittopic']) && (bool)$_POST['saveedittopic']) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('forum');
 
     if (!isforumadmin($userID)
@@ -273,17 +273,21 @@ if (isset($_POST['newreply']) && !isset($_POST['preview'])) {
         } else {
             $icon = '';
         }
-        $do_sticky = (isset($_POST['sticky'])) ? true : false;
-        if ($do_sticky && (isforumadmin($userID) || isanymoderator($userID, $board))) {
-            $do_sticky = true;
-        } else {
-            $do_sticky = false;
+        if (isforumadmin($userID) || ismoderator($userID, $board)) {
+            if (isset($_POST['sticky'])) {
+                $do_sticky = 1;
+            } else {
+                $do_sticky = 0;
+            }
+            safe_query(
+                "UPDATE " . PREFIX . "forum_topics SET sticky='" . $do_sticky . "' WHERE topicID='" . $topic . "'"
+            );
         }
 
         safe_query("UPDATE " . PREFIX . "forum_posts SET message='" . $message . "' WHERE postID='" . $post . "'");
         safe_query(
-            "UPDATE " . PREFIX . "forum_topics SET topic='" . $topicname . "', icon='" . $icon . "', sticky='" .
-            $do_sticky . "' WHERE topicID='" . $topic . "'"
+            "UPDATE " . PREFIX . "forum_topics SET topic='" . $topicname . "', icon='" . $icon . "' " .
+            "WHERE topicID='" . $topic . "'"
         );
 
         if ($notify == 1) {
@@ -443,9 +447,9 @@ function showtopic($topic, $edit, $addreply, $quoteID, $type)
 
     $kathname = getcategoryname($db['category']);
     $data_array = array();
-    $data_array['$db'] = $db;
     $data_array['$kathname'] = $kathname;
-    $data_array['$dt'] = $dt;
+    $data_array['$category'] = (int)$db['category'];
+    $data_array['$board'] = (int)$dt['boardID'];
     $data_array['$boardname'] = $boardname;
     $data_array['$topicname'] = $topicname;
     $forum_topics_title = $GLOBALS["_template"]->replaceTemplate("forum_topics_title", $data_array);
@@ -475,14 +479,16 @@ function showtopic($topic, $edit, $addreply, $quoteID, $type)
                 "' AND postID='" . $id . "' AND poster='" . $userID . "' ORDER BY DATE ASC LIMIT 0,1"
             )
         );
-        if ($anz || isforumadmin($userID) || ismoderator($userID, $dt['boardID'])) {
+
+        $board = $dt['boardID'];
+
+        if ($anz || isforumadmin($userID) || ismoderator($userID, $board)) {
             if (istopicpost($dt['topicID'], $id)) {
                 $bg1 = BG_1;
 
                 // topicmessage
                 $message = getinput($dr['message']);
                 $post = $id;
-                $board = $dt['boardID'];
 
                 // notification check
                 $notifyqry =
@@ -506,44 +512,8 @@ function showtopic($topic, $edit, $addreply, $quoteID, $type)
                     $chk_sticky = '';
                 }
 
-                // topic icon list
-                $iconlist = '<ul class="nav nav-pills nav-justified">
-        <li><input type="radio" class="input" name="icon" value="ausrufezeichen.gif">
-        <img src="images/icons/topicicons/ausrufezeichen.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="biggrin.gif">
-        <img src="images/icons/topicicons/biggrin.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="boese.gif">
-        <img src="images/icons/topicicons/boese.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="bored.gif">
-        <img src="images/icons/topicicons/bored.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="cool.gif">
-        <img src="images/icons/topicicons/cool.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="eek.gif">
-        <img src="images/icons/topicicons/eek.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="frage.gif">
-        <img src="images/icons/topicicons/frage.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="frown.gif">
-        <img src="images/icons/topicicons/frown.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="lampe.gif">
-        <img src="images/icons/topicicons/lampe.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="mad.gif">
-        <img src="images/icons/topicicons/mad.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="pfeil.gif">
-        <img src="images/icons/topicicons/pfeil.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="smile.gif">
-        <img src="images/icons/topicicons/smile.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="text.gif">
-        <img src="images/icons/topicicons/text.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="thumb_down.gif">
-        <img src="images/icons/topicicons/thumb_down.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="thumb_up.gif">
-        <img src="images/icons/topicicons/thumb_up.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="wink.gif">
-        <img src="images/icons/topicicons/wink.gif"></li>
-        <li><input type="radio" class="input" name="icon" value="0">
-        ' . $_language->module['no_icon'] . '</li>
-        </ul>';
 
+                $iconlist = $GLOBALS["_template"]->replaceTemplate("forum_newtopic_iconlist", array());
                 if ($dt['icon']) {
                     $iconlist =
                         str_replace(
@@ -684,11 +654,32 @@ function showtopic($topic, $edit, $addreply, $quoteID, $type)
                 } else {
                     $ergebnis = safe_query(
                         "SELECT * FROM " . PREFIX .
-                        "forum_ranks WHERE $posts >= postmin AND $posts <= postmax AND postmax >0"
+                        "forum_ranks WHERE $posts >= postmin AND $posts <= postmax AND postmax >0 AND special='0'"
                     );
                     $ds = mysqli_fetch_array($ergebnis);
                     $usertype = $ds['rank'];
                     $rang = '<img src="images/icons/ranks/' . $ds['pic'] . '" alt="">';
+                }
+
+                $specialrang = "";
+                $specialtype = "";
+                $getrank = safe_query(
+                    "SELECT IF
+                        (u.special_rank = 0, 0, CONCAT_WS('__',r.rank, r.pic)) as RANK
+                    FROM
+                        " . PREFIX . "user u LEFT JOIN " . PREFIX . "forum_ranks r ON u.special_rank = r.rankID
+                    WHERE
+                        userID = '" . $userID . "'"
+                );
+                $rank_data = mysqli_fetch_assoc($getrank);
+
+                if ($rank_data[ 'RANK' ] != '0') {
+                    $tmp_rank = explode("__", $rank_data[ 'RANK' ], 2);
+                    $specialrang = $tmp_rank[0];
+                    if (!empty($tmp_rank[1]) && file_exists("images/icons/ranks/" . $tmp_rank[1])) {
+                        $specialtype =
+                            "<img src='images/icons/ranks/" . $tmp_rank[1] . "' alt = '" . $specialrang . "' />";
+                    }
                 }
 
                 if (isforumadmin($userID)) {
@@ -725,6 +716,8 @@ function showtopic($topic, $edit, $addreply, $quoteID, $type)
                 $data_array['$registered'] = $registered;
                 $data_array['$message'] = $message;
                 $data_array['$signatur'] = $signatur;
+                $data_array['$specialrang'] = $specialrang;
+                $data_array['$specialtype'] = $specialtype;
                 $forum_topic_content = $GLOBALS["_template"]->replaceTemplate("forum_topic_content", $data_array);
                 echo $forum_topic_content;
 
@@ -910,11 +903,31 @@ function showtopic($topic, $edit, $addreply, $quoteID, $type)
         } else {
             $ergebnis = safe_query(
                 "SELECT * FROM " . PREFIX .
-                "forum_ranks WHERE $posts >= postmin AND $posts <= postmax AND postmax >0"
+                "forum_ranks WHERE $posts >= postmin AND $posts <= postmax AND postmax >0 AND special='0'"
             );
             $ds = mysqli_fetch_array($ergebnis);
             $usertype = $ds['rank'];
             $rang = '<img src="images/icons/ranks/' . $ds['pic'] . '" alt="">';
+        }
+
+        $specialrang = "";
+        $specialtype = "";
+        $getrank = safe_query(
+            "SELECT IF
+                        (u.special_rank = 0, 0, CONCAT_WS('__',r.rank, r.pic)) as RANK
+                    FROM
+                        " . PREFIX . "user u LEFT JOIN " . PREFIX . "forum_ranks r ON u.special_rank = r.rankID
+                    WHERE
+                        userID = '" . $userID . "'"
+        );
+        $rank_data = mysqli_fetch_assoc($getrank);
+
+        if ($rank_data[ 'RANK' ] != '0') {
+            $tmp_rank = explode("__", $rank_data[ 'RANK' ], 2);
+            $specialrang = $tmp_rank[0];
+            if (!empty($tmp_rank[1]) && file_exists("images/icons/ranks/" . $tmp_rank[1])) {
+                $specialtype = "<img src='images/icons/ranks/" . $tmp_rank[1] . "' alt = '" . $specialrang . "' />";
+            }
         }
 
         $spam_buttons = "";
@@ -957,6 +970,8 @@ function showtopic($topic, $edit, $addreply, $quoteID, $type)
         $data_array['$registered'] = $registered;
         $data_array['$message'] = $message;
         $data_array['$signatur'] = $signatur;
+        $data_array['$specialrang'] = $specialrang;
+        $data_array['$specialtype'] = $specialtype;
         $forum_topic_content = $GLOBALS["_template"]->replaceTemplate("forum_topic_content", $data_array);
         echo $forum_topic_content;
         unset($actions);

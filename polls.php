@@ -32,9 +32,9 @@ if (isset($_GET[ 'action' ])) {
 }
 
 if ($action == "vote") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     if (isset($_POST[ 'pollID' ]) && isset($_POST[ 'vote' ])) {
         $pollID = (int)$_POST[ 'pollID' ];
         $vote = (int)$_POST[ 'vote' ];
@@ -116,9 +116,9 @@ if ($action == "vote") {
         header('Location: index.php?site=polls');
     }
 } elseif (isset($_POST[ 'save' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include'_functions.php';
+    include("_mysql.php");
+    include("_settings.php");
+    include('_functions.php');
     $_language->readModule('polls');
 
     if (isset($_POST[ 'intern' ])) {
@@ -180,9 +180,9 @@ if ($action == "vote") {
     );
     header('Location: index.php?site=polls');
 } elseif (isset($_POST[ 'saveedit' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include'_functions.php';
+    include("_mysql.php");
+    include("_settings.php");
+    include('_functions.php');
     $_language->readModule('polls');
     if (!ispollsadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -294,9 +294,9 @@ if ($action == "vote") {
     }
     header('Location: index.php?site=polls');
 } elseif (isset($_GET[ 'end' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include'_functions.php';
+    include("_mysql.php");
+    include("_settings.php");
+    include('_functions.php');
     $_language->readModule('polls');
     if (!ispollsadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -305,9 +305,9 @@ if ($action == "vote") {
     safe_query("UPDATE " . PREFIX . "poll SET aktiv='0' WHERE pollID='" . $pollID . "'");
     header('Location: index.php?site=polls');
 } elseif (isset($_GET[ 'reopen' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include'_functions.php';
+    include("_mysql.php");
+    include("_settings.php");
+    include('_functions.php');
     $_language->readModule('polls');
     if (!ispollsadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -316,9 +316,9 @@ if ($action == "vote") {
     safe_query("UPDATE " . PREFIX . "poll SET aktiv='1' WHERE pollID='" . $pollID . "'");
     header('Location: index.php?site=polls');
 } elseif (isset($_GET[ 'delete' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include'_functions.php';
+    include("_mysql.php");
+    include("_settings.php");
+    include('_functions.php');
     $_language->readModule('polls');
     if (!ispollsadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -531,7 +531,7 @@ if ($action == "new") {
     $type = "po";
     $referer = "index.php?site=polls&amp;pollID=" . $pollID;
 
-    include"comments.php";
+    include("comments.php");
 } elseif (isset($_GET[ 'vote' ])) {
     $pagebg = PAGEBG;
     $border = BORDER;

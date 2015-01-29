@@ -10,7 +10,7 @@
 #                                   /                                    #
 #                                                                        #
 #                                                                        #
-#   Copyright 2005-2014 by webspell.org                                  #
+#   Copyright 2005-2009 by webspell.org                                  #
 #                                                                        #
 #   visit webSPELL.org, webspell.info to get webSPELL for free           #
 #   - Script runs under the GNU GENERAL PUBLIC LICENSE                   #
@@ -26,9 +26,8 @@
 */
 
 $language_array = Array(
-
-/* do not edit above this line */
-
-	'no_text'=>'Aucun texte défilant.'
-);
-?>
+	'used_for'=>'Used for',
+	'special_rank'=>'special rank',
+	'no_special_rank'=>'no special rank'
+ );
+ ?>

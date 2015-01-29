@@ -29,9 +29,9 @@ if (isset($site)) {
 }
 
 if (isset($_POST[ 'save' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('demos');
 
     if (!isfileadmin($userID)) {
@@ -118,9 +118,9 @@ if (isset($_POST[ 'save' ])) {
     );
     header("Location: index.php?site=demos");
 } elseif (isset($_POST[ 'saveedit' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('demos');
 
     if (!isfileadmin($userID)) {
@@ -197,9 +197,9 @@ if (isset($_POST[ 'save' ])) {
     );
     header("Location: index.php?site=demos");
 } elseif (isset($_GET[ 'delete' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('demos');
 
     if (!isfileadmin($userID)) {
@@ -403,7 +403,7 @@ if ($action == "new") {
     $country2 = "[flag]" . $ds[ 'country2' ] . "[/flag]";
     $country2 = flags($country2);
     $clan2 = $country2 . ' <a href="' . $ds[ 'url2' ] . '" target="_blank">' . $ds[ 'clan2' ] . '</a>';
-    $game = '<img src="images/games/' . $ds[ 'game' ] . '.gif" width="13" height="13" alt=""> ' . $ds[ 'game' ];
+    $game = '<img src="images/games/' . $ds[ 'game' ] . '.gif" alt=""> ' . $ds[ 'game' ];
 
     $clicks = $ds[ 'downloads' ];
     $player = $ds[ 'player' ];
@@ -502,7 +502,7 @@ if ($action == "new") {
     $type = "de";
     $referer = "index.php?site=demos&amp;action=showdemo&amp;demoID=$demoID";
 
-    include"comments.php";
+    include("comments.php");
 } elseif ($action == "showgame") {
     $game = $_GET[ 'game' ];
 
@@ -636,7 +636,7 @@ if ($action == "new") {
             $country2 = "[flag]" . $ds[ 'country2' ] . "[/flag]";
             $country2 = flags($country2);
             $clan2 = '<a href="' . $ds[ 'url2' ] . '" target="_blank">' . $ds[ 'clantag2' ] . '</a> ' . $country2;
-            $game = '<img src="images/games/' . $ds[ 'game' ] . '.gif" width="13" height="13" alt="">';
+            $game = '<img src="images/games/' . $ds[ 'game' ] . '.gif" alt="">';
             $clicks = $ds[ 'downloads' ];
 
             $ratings = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -783,7 +783,7 @@ if ($action == "new") {
             $country2 = flags($country2);
             $clan2 = $country2 . ' <a href="' . $ds[ 'url2' ] . '" target="_blank">' . $ds[ 'clantag2' ] . '</a> ';
             $game = '<a href="index.php?site=demos&amp;action=showgame&amp;game=' . $ds[ 'game' ] .
-                '"><img src="images/games/' . $ds[ 'game' ] . '.gif" width="13" height="13" alt=""></a>';
+                '"><img src="images/games/' . $ds[ 'game' ] . '.gif" alt=""></a>';
             $clicks = $ds[ 'downloads' ];
 
             $ratings = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);

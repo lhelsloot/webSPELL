@@ -32,9 +32,9 @@ if (isset($_GET[ 'action' ])) {
 }
 
 if (isset($_POST[ 'save' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('guestbook');
 
     $date = time();
@@ -99,9 +99,9 @@ if (isset($_POST[ 'save' ])) {
         header("Location: index.php?site=guestbook&action=add&error=captcha");
     }
 } elseif (isset($_GET[ 'delete' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('guestbook');
     if (!isfeedbackadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -113,9 +113,9 @@ if (isset($_POST[ 'save' ])) {
     }
     header("Location: index.php?site=guestbook");
 } elseif (isset($_POST[ 'savecomment' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
 
     $_language->readModule('guestbook');
     if (!isfeedbackadmin($userID)) {

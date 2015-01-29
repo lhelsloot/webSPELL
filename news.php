@@ -37,9 +37,9 @@ if (isset($_REQUEST[ 'quickactiontype' ])) {
 }
 
 if ($action == "new") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
     $_language->readModule('bbcode', true);
     if (!isnewswriter($userID)) {
@@ -159,9 +159,9 @@ if ($action == "new") {
     $news_post = $GLOBALS["_template"]->replaceTemplate("news_post", $data_array);
     echo $news_post;
 } elseif ($action == "save") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
     $newsID = $_POST[ 'newsID' ];
 
@@ -309,9 +309,9 @@ if ($action == "new") {
         header("Location: news.php?action=edit&newsID=" . $newsID);
     }
 } elseif ($action == "preview") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
 
     $newsID = $_GET[ 'newsID' ];
@@ -446,9 +446,9 @@ if ($action == "new") {
         '\', \'news.php?action=delete&amp;id=' . $newsID . '&amp;close=true\'
     )" value="' . $_language->module[ 'delete' ] . '" class="btn btn-danger"></body></html>';
 } elseif ($quickactiontype == "publish") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
     if (!isnewsadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -469,9 +469,9 @@ if ($action == "new") {
         header("Location: index.php?site=news&action=unpublished");
     }
 } elseif ($quickactiontype == "unpublish") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
     if (!isnewsadmin($userID)) {
         die($_language->module[ 'no_access' ]);
@@ -490,9 +490,9 @@ if ($action == "new") {
     }
     header("Location: index.php?site=news");
 } elseif ($quickactiontype == "delete") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
     if (isset($_POST[ 'newsID' ])) {
         $newsID = $_POST[ 'newsID' ];
@@ -535,9 +535,9 @@ if ($action == "new") {
         header("Location: index.php?site=news&action=archive");
     }
 } elseif ($action == "delete") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
 
     $id = $_GET[ 'id' ];
@@ -580,9 +580,9 @@ if ($action == "new") {
         header("Location: index.php?site=news");
     }
 } elseif ($action == "edit") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('news');
 
     $newsID = $_GET[ 'newsID' ];

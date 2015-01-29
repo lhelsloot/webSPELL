@@ -29,9 +29,9 @@ if (isset($site)) {
 }
 
 if (isset($_POST[ 'save' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('awards');
 
     if (!isclanwaradmin($userID) && !isnewsadmin($userID)) {
@@ -71,9 +71,9 @@ if (isset($_POST[ 'save' ])) {
     );
     header("Location: index.php?site=awards");
 } elseif (isset($_POST[ 'saveedit' ])) {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('awards');
 
     if (!isclanwaradmin($userID) && !isnewsadmin($userID)) {

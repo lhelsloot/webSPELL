@@ -82,7 +82,7 @@ while ($ds = mysqli_fetch_array($ergebnis)) {
 }
 
 // reading version
-require'version.php';
+include('version.php');
 
 $headline1 = $_language->module[ 'imprint' ];
 $headline2 = $_language->module[ 'coding' ];

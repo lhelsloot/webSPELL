@@ -490,9 +490,9 @@ function print_termine($tag, $month, $year)
 /* beginn processing file */
 
 if ($action === "savewar") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('calendar');
     if (!isclanwaradmin($userID)) {
         die($_language->module['no_access']);
@@ -582,9 +582,9 @@ if ($action === "savewar") {
         date("Y", $date)
     );
 } elseif ($action === "delete") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('calendar');
     if (!isclanwaradmin($userID)) {
         die($_language->module['no_access']);
@@ -595,9 +595,9 @@ if ($action === "savewar") {
     safe_query("DELETE FROM " . PREFIX . "upcoming_announce WHERE upID='$upID'");
     header("Location: index.php?site=calendar");
 } elseif ($action === "saveannounce") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('calendar');
     if (!isclanmember($userID)) {
         die($_language->module['no_access']);
@@ -654,9 +654,9 @@ if ($action === "savewar") {
         header("Location: index.php?site=calendar");
     }
 } elseif ($action === "saveeditdate") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('calendar');
     if (!isclanwaradmin($userID)) {
         die($_language->module['no_access']);
@@ -688,9 +688,9 @@ if ($action === "savewar") {
         date("Y", $date_start)
     );
 } elseif ($action === "savedate") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('calendar');
     if (!isclanwaradmin($userID)) {
         die($_language->module['no_access']);
@@ -733,9 +733,9 @@ if ($action === "savewar") {
         0
     );
 } elseif ($action === "saveeditwar") {
-    include"_mysql.php";
-    include"_settings.php";
-    include"_functions.php";
+    include("_mysql.php");
+    include("_settings.php");
+    include("_functions.php");
     $_language->readModule('calendar');
     if (!isclanwaradmin($userID)) {
         die($_language->module['no_access']);

@@ -116,13 +116,14 @@ if ($userID) {
         }
     } elseif (isset($_GET[ 'delete' ])) {
         //SQL
-        if (safe_query(
-            "DELETE FROM
+        if (
+            safe_query(
+                "DELETE FROM
                     " . PREFIX . "gallery
                 WHERE
                     galleryID='" . $_GET[ 'galleryID' ] . "' AND
                     userID='" . (int)$userID."'"
-        )
+            )
         ) {
             //FILES
             $ergebnis =
