@@ -34,6 +34,7 @@ class Email
 {
     public static function sendEmail($from, $module, $to, $subject, $message, $pop = true)
     {
+        global $showdebug;
         $get = safe_query("SELECT * FROM " . PREFIX . "email");
         while ($ds = mysqli_fetch_assoc($get)) {
             $host = $ds['host'];
@@ -60,7 +61,11 @@ class Email
             $mail = new \PHPMailer;
 
             $mail->SMTPDebug = $debug;
-            $mail->Debugoutput = 'html';
+            //$mail->Debugoutput = 'html';
+            $mail->Debugoutput = function($str, $level) {
+                global $showdebug;
+                $showdebug .= $str . '<br>';
+            };
 
             if ($smtp == 1) {
                 $mail->isSMTP();
@@ -99,6 +104,7 @@ class Email
             $mail->addAddress($to);
             $mail->addReplyTo($from);
             $mail->CharSet = 'utf-8';
+            $mail->WordWrap = 78;
 
             if ($html == 1) {
                 $mail->isHTML(true);
@@ -111,13 +117,25 @@ class Email
             }
 
             if (!$mail->send()) {
-                return array("result" => "fail", "error" => $mail->ErrorInfo);
+                if ($debug == 0) {
+                    return array("result" => "fail", "error" => $mail->ErrorInfo);
+                } else {
+                    return array("result" => "fail", "error" => $mail->ErrorInfo, "debug" => $showdebug);
+                }
             } else {
-                return array("result" => "done");
+                if ($debug == 0) {
+                    return array("result" => "done");
+                } else {
+                    return array("result" => "done", "debug" => $showdebug);
+                }
             }
         } else {
             $mail = new \PHPMailer;
-            return array("result" => "fail", "error" => $mail->ErrorInfo);
+            if ($debug == 0) {
+                return array("result" => "fail", "error" => $mail->ErrorInfo);
+            } else {
+                return array("result" => "fail", "error" => $mail->ErrorInfo, "debug" => $showdebug);
+            }
         }
     }
 }
