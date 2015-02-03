@@ -304,6 +304,10 @@ systeminc('func/bbcode');
 
 systeminc('func/tags');
 
+// -- Upload -- //
+
+systeminc('func/upload');
+
 // -- Mod Rewrite -- //
 
 systeminc('modrewrite');
