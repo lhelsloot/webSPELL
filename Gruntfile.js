@@ -175,7 +175,7 @@ module.exports = function(grunt) {
                 options: {
                     import: 2
                 },
-                src: ["_stylesheet.css"]
+                src: [ "_stylesheet.css" ]
             }
         },
 
@@ -307,7 +307,8 @@ module.exports = function(grunt) {
     grunt.registerTask("codecheck", [
         "js",
         "php",
-        "html"
+        "html",
+        "css"
     ]);
 
     grunt.registerTask("codecheck_newer", [
@@ -323,7 +324,8 @@ module.exports = function(grunt) {
         "phpcs",
         "htmlhint",
         "htmllint",
-        "bootlint"
+        "bootlint",
+        "csslint"
     ]);
 
     grunt.registerTask("codecheck_travis", [
@@ -333,7 +335,8 @@ module.exports = function(grunt) {
         "phpcs",
         "htmlhint",
         "htmllint",
-        "bootlint"
+        "bootlint",
+        "csslint"
     ]);
 
     grunt.registerTask("html", [
@@ -351,6 +354,10 @@ module.exports = function(grunt) {
     grunt.registerTask("php", [
         "phplint",
         "phpcs"
+    ]);
+
+    grunt.registerTask("css", [
+        "csslint"
     ]);
 
     grunt.registerTask("git", [
