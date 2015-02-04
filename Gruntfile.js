@@ -167,6 +167,18 @@ module.exports = function(grunt) {
             files: templates
         },
 
+        csslint: {
+            options: {
+                csslintrc: '.csslintrc'
+            },
+            strict: {
+                options: {
+                    import: 2
+                },
+                src: ['_stylesheet.css']
+            }
+        },
+
         githooks: {
             all: {
                 "pre-commit": "test"
