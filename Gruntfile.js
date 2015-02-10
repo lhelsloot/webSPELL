@@ -389,9 +389,9 @@ module.exports = function(grunt) {
         } else {
             grunt.task.run([
                 "bumpOnly:" + releaseLevel,
+                "exec:sortLanguageKeys",
                 "replace:copyright",
                 "replace:version",
-                "exec:sortLanguageKeys",
                 "changelog",
                 "bumpCommit:" + releaseLevel,
                 "compress:release"
